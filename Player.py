@@ -106,3 +106,27 @@ class AI(Player):
 		#recursivly attack again if hit was sucess
 		if all_players[chosen_victim].hit(x,y): 
 			attack(all_players)
+	
+	#DOES NOT WORK YET THIS IS BASICALLY PSUDOCODE BUT I CAN'T TEST/DEBUG IT CAUSE THIS COMPUTER DOESN'T HAVE PYTHON INSTALLED
+	def __init__(self, player_number):
+		super().__init__()
+		self._ship_board = [[MISS for i in range(size)] for x in range(size)]
+		#standard set up
+		all_boats = [5,4,3,3,2]
+		for boat in all_boats:
+			while True:
+				col,row = randint(1, SIZE), randint(1, SIZE);
+				direction = get_dir[randint(0,1)]
+				if validate_direction(col, row, boat, direction): 
+					fill_dirrection(col, row, boat, direction):
+					break
+		pass
+
+	def validate_direction(self, col, row, length, direction):
+		for i in range(length):
+			if self._ship_board[col + i*direction[0]][row + i*direction[1]] == SHIP: return False
+		
+	def fill_direction(self, col, row, length, direction):
+		for i in range(length):
+			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
+	
