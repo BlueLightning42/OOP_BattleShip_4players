@@ -4,28 +4,27 @@ HIT = True
 MISS = False
 EMPTY = None
 SHIP = True
-size = 8
 
 DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	'''abstract base class'''
-	def __init__(self, player_number):
+	def __init__(self, SIZE, player_number):
 		self.LARGEST_BOAT = 5
 		self.boats_left = 5
 		self.player_number = player_number
-
+		self.SIZE = SIZE
 		
 		#Initializes a game board
-		self.ocean_board = [[MISS for i in range(size+2)] if (not x or not (size-x+1)) else [MISS if (not i or not (size-i+1)) else EMPTY for i in range(size+2)] for x in range(size+2)]
+		self.ocean_board = [[MISS for i in range(size+2)] if (not x or not (self.SIZE-x+1)) else [MISS if (not i or not (self.SIZE-i+1)) else EMPTY for i in range(self.SIZE+2)] for x in range(self.SIZE+2)]
 		
 		#Initialise the Empty secret ship board
-		self._ship_board = [[MISS for i in range(size)] for x in range(size)]
+		self._ship_board = [[MISS for i in range(self.SIZE)] for x in range(self.SIZE)]
 		
 		
 	def guess(self):
 		#random unoptimal guess (making a stupid ai?)
 		while True:
-			row,cell = randint(1, size), randint(1, size);
+			row,cell = randint(1, self.SIZE), randint(1, self.SIZE);
 			if self.ocean_board[row][cell] is EMPTY:
 				return row,cell
 	
@@ -35,8 +34,8 @@ class Player:
 		similar_probabilities = []
 		higest_probability = 0
 		#check each cell
-		for row in range(1,size-1):
-			for cell in range(1,size-1):
+		for row in range(1, self.SIZE-1):
+			for cell in range(1, self.SIZE-1):
 				#skip cells that are already hit
 				if self.ocean_board[row][cell] == HIT: continue
 				
@@ -100,12 +99,12 @@ class AI(Player):
 	
 	#Fixed it I think?
 	def __init__(self):
-		self._ship_board = [[MISS for i in range(size)] for x in range(size)]
+		self._ship_board = [[MISS for i in range(self.SIZE)] for x in range(self.SIZE)]
 		#standard set up
 		all_boats = [5,4,3,3,2]
 		for boat in all_boats:
 			while True:
-				col,row = randint(1, size), randint(1, size);
+				col,row = randint(1, self.SIZE), randint(1, self.SIZE);
 				direction = DIRRECTIONS[randint(0,1)]
 				
 				if self.validate_direction(col, row, boat, direction): 
