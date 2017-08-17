@@ -107,9 +107,8 @@ class AI(Player):
 		if all_players[chosen_victim].hit(x,y): 
 			attack(all_players)
 	
-	#DOES NOT WORK YET THIS IS BASICALLY PSUDOCODE BUT I CAN'T TEST/DEBUG IT CAUSE THIS COMPUTER DOESN'T HAVE PYTHON INSTALLED
-	def __init__(self, player_number):
-		super().__init__()
+	#Fixed it I think?
+	def __init__(self):
 		self._ship_board = [[MISS for i in range(size)] for x in range(size)]
 		#standard set up
 		all_boats = [5,4,3,3,2]
@@ -117,14 +116,18 @@ class AI(Player):
 			while True:
 				col,row = randint(1, SIZE), randint(1, SIZE);
 				direction = get_dir[randint(0,1)]
-				if validate_direction(col, row, boat, direction): 
-					fill_dirrection(col, row, boat, direction):
+				
+				if self.validate_direction(col, row, boat, direction): 
+					self.fill_direction(col, row, boat, direction)
 					break
-		pass
 
 	def validate_direction(self, col, row, length, direction):
-		for i in range(length):
-			if self._ship_board[col + i*direction[0]][row + i*direction[1]] == SHIP: return False
+		try:
+			for i in range(length):
+				if self._ship_board[col + i*direction[0]][row + i*direction[1]] == SHIP: return False
+		except IndexError:
+			return False
+		return True
 		
 	def fill_direction(self, col, row, length, direction):
 		for i in range(length):
