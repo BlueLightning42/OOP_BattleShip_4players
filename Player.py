@@ -1,18 +1,19 @@
 #player class including both the ai and the user
-import random
+from random import randint, choice
 HIT = True
 MISS = False
 EMPTY = None
 SHIP = True
-DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+size = 8
 
+DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	'''abstract base class'''
 	def __init__(self, player_number):
 		self.LARGEST_BOAT = 5
 		self.boats_left = 5
 		self.player_number = player_number
-		self.size = SIZE
+
 		
 		#Initializes a game board
 		self.ocean_board = [[MISS for i in range(size+2)] if (not x or not (size-x+1)) else [MISS if (not i or not (size-i+1)) else EMPTY for i in range(size+2)] for x in range(size+2)]
@@ -23,8 +24,8 @@ class Player:
 		
 	def guess(self):
 		#random unoptimal guess (making a stupid ai?)
-		while true:
-			row,cell = randint(1, SIZE), randint(1, SIZE);
+		while True:
+			row,cell = randint(1, size), randint(1, size);
 			if self.ocean_board[row][cell] is EMPTY:
 				return row,cell
 	
@@ -43,9 +44,9 @@ class Player:
 				#check in a direction
 				def look_dir(direc, row_, cell_):
 					prob = 0
-					for j in range(1, LARGEST_BOAT):
-						if ocean_board[row_ + direc[0]*j][cell_ + direc[1]*j] is EMPTY:
-							prob += (LARGEST_BOAT+1-j)
+					for j in range(1, self.LARGEST_BOAT):
+						if self.ocean_board[row_ + direc[0]*j][cell_ + direc[1]*j] is EMPTY:
+							prob += (self.LARGEST_BOAT+1-j)
 						else: break
 					return prob
 				
@@ -62,7 +63,7 @@ class Player:
 					similar_probabilities.append((row,cell))
 
 		#then chose which probability to use
-		best_choice = random.choice(similar_probabilities)
+		best_choice = choice(similar_probabilities)
 		return best_choice
 	
 	def search(self):
@@ -87,7 +88,7 @@ class User(Player):
 		chosen_victim = 2
 		
 		if all_players[chosen_victim].hit(x,y):
-			attack(all_players)
+			all_players[chosen_victim].attack(all_players)
 
 	def __del__(self):
 		#Game Over
@@ -96,13 +97,30 @@ class User(Player):
 	
 	
 class AI(Player):
-	@classmethod 
-	def attack(cls):
-		#chose victim
-		if all_players[chosen_victim].damaged():
-			x,y = all_players[chosen_victim].generate_probability()
-		else:
-			x,y = guess(all_players[chosen_victim])
-		#recursivly attack again if hit was sucess
-		if all_players[chosen_victim].hit(x,y): 
-			attack(all_players)
+	
+	#Fixed it I think?
+	def __init__(self):
+		self._ship_board = [[MISS for i in range(size)] for x in range(size)]
+		#standard set up
+		all_boats = [5,4,3,3,2]
+		for boat in all_boats:
+			while True:
+				col,row = randint(1, size), randint(1, size);
+				direction = DIRRECTIONS[randint(0,1)]
+				
+				if self.validate_direction(col, row, boat, direction): 
+					self.fill_direction(col, row, boat, direction)
+					break
+
+	def validate_direction(self, col, row, length, direction):
+		try:
+			for i in range(length):
+				if self._ship_board[col + i*direction[0]][row + i*direction[1]] == SHIP: return False
+		except IndexError:
+			return False
+		return True
+		
+	def fill_direction(self, col, row, length, direction):
+		for i in range(length):
+			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
+	
