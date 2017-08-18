@@ -8,7 +8,7 @@ SHIP = True
 DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	'''abstract base class'''
-	def __init__(self, player_number, SIZE, NUMBER_OF_PLAYERS):
+	def __init__(self, player_number, SIZE):
 		self.LARGEST_BOAT = 5
 		self.boats_left = 5
 		self.player_number = player_number
@@ -80,14 +80,13 @@ class Player:
 
 class User(Player):
 	#Unsure whether I'm doing this right/having the two subclasses initiate a different attack function
-	@classmethod
-	def attack(cls):
+	def attack(self):
 		#get user input for example
 		x=1;y=1
 		chosen_victim = 2
 		
 		if all_players[chosen_victim].hit(x,y):
-			all_players[chosen_victim].attack(all_players)
+			all_players[chosen_victim].attack()
 
 	def __del__(self):
 		#Game Over
@@ -99,7 +98,8 @@ class AI(Player):
 	
 	#Fixed it I think?
 	def __init__(self, player_number, SIZE, NUMBER_OF_PLAYERS):
-		super().__init__(player_number, SIZE, NUMBER_OF_PLAYERS)
+		regestry = [ [0,0] for x in range(NUMBER_OF_PLAYERS) ]
+		super().__init__(player_number, SIZE)
 		self._ship_board = [[MISS for i in range(self.SIZE)] for x in range(self.SIZE)]
 		#standard set up
 		all_boats = [5,4,3,3,2]
@@ -124,3 +124,10 @@ class AI(Player):
 		for i in range(length):
 			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
 	
+	def attack(self):
+		chosen_victim = max(p[1] for p in regestry) ?
+		
+		
+		if all_players[chosen_victim].hit(x, y, self.player_number):
+			all_players[chosen_victim].attack(all_players)
+			
