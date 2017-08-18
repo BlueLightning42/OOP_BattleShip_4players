@@ -8,7 +8,8 @@ SHIP = True
 DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	'''abstract base class'''
-	def __init__(self, player_number, SIZE):
+	def __init__(self, player_number, SIZE, NUMBER_OF_PLAYERS):
+		regestry = [ [x, 0, 0] for x in range(NUMBER_OF_PLAYERS) ]
 		self.LARGEST_BOAT = 5
 		self.boats_left = 5
 		self.player_number = player_number
@@ -69,12 +70,15 @@ class Player:
 		#if player is hit search
 		pass
 	
-	def hit(self, x, y):
+	def hit(self, x, y, attacker):
+		self.regestry[attacker][1] +=1
 		if self._ship_board[x-1][y-1]:
 			self.ocean_board[x-1][y-1] = HIT
+			
 			return True
 		else:
 			self.ocean_board[x-1][y-1] = MISS
+			self.regestry[attacker][2] +=3
 			return False
 	
 
@@ -98,8 +102,8 @@ class AI(Player):
 	
 	#Fixed it I think?
 	def __init__(self, player_number, SIZE, NUMBER_OF_PLAYERS):
-		regestry = [ [0,0] for x in range(NUMBER_OF_PLAYERS) ]
-		super().__init__(player_number, SIZE)
+		
+		super().__init__(player_number, SIZE, NUMBER_OF_PLAYERS)
 		self._ship_board = [[MISS for i in range(self.SIZE)] for x in range(self.SIZE)]
 		#standard set up
 		all_boats = [5,4,3,3,2]
@@ -125,9 +129,13 @@ class AI(Player):
 			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
 	
 	def attack(self):
-		chosen_victim = max(p[1] for p in regestry) #?
+		chosen_victim = [0,0,0]
+		for p in regestry:
+			if p[0] is self.player_number: continue
+			if [chosen_victim[2] > p[2] + randint(0,10):
+			    chosen_victim = p:
 		
-		
-		if all_players[chosen_victim].hit(x, y, self.player_number):
+		self.regestry[chosen_victim[0]][2] -= 3
+		if all_players[chosen_victim[0]].hit(x, y, self.player_number):
 			all_players[chosen_victim].attack(all_players)
 			
