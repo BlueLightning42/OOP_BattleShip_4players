@@ -125,7 +125,7 @@ class AI(Player):
 			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
 	
 	def attack(self):
-		chosen_victim = max(p[1] for p in regestry) ?
+		chosen_victim = max(p[1] for p in regestry) #?
 		
 		
 		if all_players[chosen_victim].hit(x, y, self.player_number):
