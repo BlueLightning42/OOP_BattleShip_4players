@@ -6,3 +6,6 @@ OOP battle ship game. Designed by Blue Lightning.
 Mainly to play around and try to learn python by writeing a project I wrote in C++ into python.
 And cause I wanted to challenge myself everything is set up so you can change the set-up/number of players size of board.
 Potentially will take me awhile cause I'm not working on it consistently.
+
+
+OKAY BUT LOW KEY I HAVE NO CLUE WHAT I'M DOING SO IF YOU HAVE ANY TIPS ON HOW TO BE PYTHONIC FEEL FREE TO SHARE
