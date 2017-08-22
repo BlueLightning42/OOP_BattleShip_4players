@@ -163,7 +163,11 @@ class AI(Player):
 	
 	def attack(self):
 		chosen_victim = PlayerRegestry.pick_oponent(self.player_number):
-		
+		if all_players[chosen_victim].is_hit:
+			x,y = all_players[chosen_victim].search()
+		else:
+			x,y = all_players[chosen_victim].generate_probability()
+			
 		if all_players[chosen_victim].hit(x, y):
 			PlayerRegistry.hit(chosen_victim, self.player_number, True)
 			all_players[chosen_victim].attack(all_players)
