@@ -1,5 +1,6 @@
 #player class including both the ai and the user
 from random import randint, choice
+from copy import deepcopy
 HIT = True
 MISS = False
 EMPTY = None
@@ -9,7 +10,6 @@ DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	'''abstract base class'''
 	def __init__(self, player_number, SIZE, NUMBER_OF_PLAYERS):
-		regestry = [ [x, 0, 0] for x in range(NUMBER_OF_PLAYERS) ]
 		self.LARGEST_BOAT = 5
 		self.boats_left = 5
 		self.player_number = player_number
@@ -71,10 +71,8 @@ class Player:
 		pass
 	
 	def hit(self, x, y, attacker):
-		self.regestry[attacker][1] +=1
 		if self._ship_board[x-1][y-1]:
 			self.ocean_board[x-1][y-1] = HIT
-			
 			return True
 		else:
 			self.ocean_board[x-1][y-1] = MISS
@@ -87,7 +85,7 @@ class User(Player):
 	def attack(self):
 		#get user input for example
 		x=1;y=1
-		chosen_victim = 2
+		chosen_victim = player_regestry
 		
 		if all_players[chosen_victim].hit(x,y):
 			all_players[chosen_victim].attack()
@@ -129,13 +127,37 @@ class AI(Player):
 			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
 	
 	def attack(self):
-		chosen_victim = [0,0,0]
-		for p in regestry:
-			if p[0] is self.player_number: continue
-			if [chosen_victim[2] > p[2] + randint(0,10):
-			    chosen_victim = p:
+		chosen_victim = PlayerRegestry.pick_oponent(self.player_number):
 		
-		self.regestry[chosen_victim[0]][2] -= 3
-		if all_players[chosen_victim[0]].hit(x, y, self.player_number):
+		if all_players[chosen_victim].hit(x, y, self.player_number):
 			all_players[chosen_victim].attack(all_players)
 			
+#####################################################################################################################
+# maybe I'm being stupid but this seemed like the best way to bundle a bunch of variables and funcitons to acess them
+# even tho its a singleton...should I have looked more into what modules are?
+class PlayerRegestry:
+	def __init__(self, size):
+		self.hits = [[0 for i in range(NUMBER_OF_PLAYERS)] for k in range(NUMBER_OF_PLAYERS)]
+		self.ship_hits = deepcopy(self.hits)
+		self.influence = deepcopy(self.hits)
+		
+	def hit(attacker, victim, has_hit_ship):
+		self.hits[victim][attacker] += 1
+		if has_hit_ship: 
+			self.ship_hits[victim][attacker] += 1
+			self.influence[victim][attacker] += 10
+		else:
+			self.influence[victim][attacker] += 5
+			
+	def pick_oponent(self, attacker):
+		chosen_victim = 0
+		highest_influece = 0
+		for victim in range(len(self.influence)):
+			if victim is attacker: continue #no self attacks
+			if self.influence[victim][attacker] + randint(-10, 10) > highest_influence:
+				highest_influece = self.influence[victim][attacker]
+				chosen_victim = victim
+		return chosen_victim
+			
+
+				
