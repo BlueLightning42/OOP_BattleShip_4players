@@ -15,6 +15,8 @@ class Player:
 		self.LARGEST_BOAT = 5
 		self.boats_left = 5
 		self.player_number = player_number
+		self.is_hit = False
+		self.last_hit = (0,0)
 		
 		#Initializes a game board
 		self.ocean_board = [[MISS for i in range(SIZE+2)] if (not x or not (SIZE-x+1)) else [MISS if (not i or not (SIZE-i+1)) else EMPTY for i in range(SIZE+2)] for x in range(SIZE+2)]
@@ -42,19 +44,23 @@ class Player:
 				if self.ocean_board[row][cell] == HIT: continue
 				
 				probability=0
+				#add bias to middles
+				if self.ocean_board[row+1][cell] and self.ocean_board[row-1][cell] is
+				
 				#check in a direction
-				def look_dir(direc, row_, cell_):
+				def look_dir(direc):
+					nonlocal row, cell
 					prob = 0
 					for j in range(1, self.LARGEST_BOAT):
-						if self.ocean_board[row_ + direc[0]*j][cell_ + direc[1]*j] is EMPTY:
+						if self.ocean_board[row + direc[0]*j][cell + direc[1]*j] is EMPTY:
 							prob += (self.LARGEST_BOAT+1-j)
 						else: break
 					return prob
 				
-				look_dir(DIRRECTIONS[0], row, cell) #up
-				look_dir(DIRRECTIONS[1], row, cell) #down
-				look_dir(DIRRECTIONS[2], row, cell) #left
-				look_dir(DIRRECTIONS[3], row, cell) #right
+				look_dir(DIRRECTIONS[0]) #up
+				look_dir(DIRRECTIONS[1]) #down
+				look_dir(DIRRECTIONS[2]) #left
+				look_dir(DIRRECTIONS[3]) #right
 
 				#decide if stronger probability
 				if probability > higest_probability:
@@ -69,10 +75,35 @@ class Player:
 	
 	def search(self):
 		#if player is hit search
-		pass
+		x,y = self.last_hit
+		
+		if self.ocean_board[x][y-1] or self.ocean_board[x+1][y] or not (self.ocean_board[x-1][y] and self.ocean_board[x+1][y]) :
+			#horisontal look
+			for p in range(self.LARGEST_BOAT):
+				if self.ocean_board[x][y-p] == HIT: continue
+				elif self.ocean_board[x][y-p] == EMPTY: return (x,y-p)
+			for p in range(self.LARGEST_BOAT):
+				if self.ocean_board[x][y+p] == HIT: continue
+				elif self.ocean_board[x][y+p] == EMPTY: return (x,y+p)
+			break
+		elif self.ocean_board[x-1][y] or self.ocean_board[x+1][y] or not (self.ocean_board[x][y-1] and self.ocean_board[x][y+1]):
+			#virticle look
+			for p in range(self.LARGEST_BOAT):
+				if self.ocean_board[x-p][y] == HIT: continue
+				elif self.ocean_board[x-p][y] == EMPTY: return (x-p,y)
+			for p in range(self.LARGEST_BOAT):
+				if self.ocean_board[x+p][y] == HIT: continue
+				elif self.ocean_board[x+p][y] == EMPTY: return (x+p,y)
+			break
+			
+		self.is_hit = False
+		return self.generate_probability()
 	
 	def hit(self, x, y):
 		if self._ship_board[x-1][y-1]:
+			self.is_hit = True
+			self.last_hit = (x,y)
+			
 			self.ocean_board[x-1][y-1] = HIT
 			return True
 		else:
