@@ -11,7 +11,7 @@ SHIP = True
 DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	'''abstract base class'''
-	def __init__(self, player_number, NUMBER_OF_PLAYERS):
+	def __init__(self, player_number):
 		self.LARGEST_BOAT = 5
 		self.boats_left = 5
 		self.player_number = player_number
@@ -102,9 +102,9 @@ class User(Player):
 class AI(Player):
 	
 	#Fixed it I think?
-	def __init__(self, player_number, NUMBER_OF_PLAYERS):
+	def __init__(self, player_number):
 		
-		super().__init__(player_number, NUMBER_OF_PLAYERS)
+		super().__init__(player_number)
 		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
 		#standard set up
 		all_boats = [5,4,3,3,2]
