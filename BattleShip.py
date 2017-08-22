@@ -1,6 +1,6 @@
 #Main file 
 
-import Player
+from Player import Player, User, Ai
 import ShipBoard
 import PlayerRegistry
 #set up all players
