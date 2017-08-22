@@ -9,14 +9,16 @@
 hits = []
 ship_hits = []
 influence = []
+SIZE = 8
 
-def initialize_registry(NUMBER_OF_PLAYERS):
-	global hits; global ship_hits; global influence
+def initialize_registry(NUMBER_OF_PLAYERS, size):
+	global hits; global ship_hits; global influence; global SIZE
 	hits = [[0 for i in range(NUMBER_OF_PLAYERS)] for k in range(NUMBER_OF_PLAYERS)]
 	ship_hits = deepcopy(self.hits)
 	influence = deepcopy(self.hits)
+	SIZE = size
 	
-def hit(attacker, victim, has_hit_ship):
+def hit(victim, attacker, has_hit_ship):
 	global hits; global ship_hits; global influence
 	hits[victim][attacker] += 1
 	if has_hit_ship: 
