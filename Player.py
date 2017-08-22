@@ -94,6 +94,7 @@ class User(Player):
 			PlayerRegistry.hit(chosen_victim, self.player_number, False)	
 
 	def __del__(self):
+		PlayerRegistry.kill_player(self.player_number)
 		#Game Over
 		#delete all other players
 		pass
@@ -137,5 +138,7 @@ class AI(Player):
 			all_players[chosen_victim].attack(all_players)
 		else:
 			PlayerRegistry.hit(chosen_victim, self.player_number, False)	
-
+			
+	def __del__(self):
+		PlayerRegistry.kill_player(self.player_number)
 				
