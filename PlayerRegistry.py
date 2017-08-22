@@ -28,10 +28,10 @@ def hit(victim, attacker, has_hit_ship):
 	if has_hit_ship: 
 		ship_hits[victim][attacker] += 1
 		influence[victim][attacker] += 10
-		influence[victim][attacker] -= 5
+		influence[attacker][victim] -= 5
 	else:
 		influence[victim][attacker] += 3
-		influence[victim][attacker] -= 1
+		influence[attacker][victim] -= 1
 		
 def pick_oponent(attacker):
 	chosen_victim = 0
@@ -45,8 +45,9 @@ def pick_oponent(attacker):
 	return chosen_victim
 
 def kill_player(player_number):
-	global stats; global influence
-	
+	global stats; global influence; global distroyed_counter
+	player_number += 1 #display each player with an offset so there is no player0
+		
 	if distroyed_counter == 1:
 		temp_str = "\nPlayer{} was the first distroyed\n".format(player_number)
 	elif distroyed_counter == 2:
@@ -55,10 +56,11 @@ def kill_player(player_number):
 		temp_str = "Player{} was the third distroyed\n".format(player_number)
 	else:
 		temp_str = "Player{} was the {}th distroyed\n".format(player_number, distroyed_counter)
+	distroyed_counter += 1
 	
 	for p in range(len(hits));
 		temp_str.append("They hit Player{} {} times\n".format(p, hits[p][player_number])
 		temp_str.append("and were hit by Player{} {} times\n".format(p, hits[player_number][p])
 		influence[p][player_number] = -100 #remove them from being chosen
-	
+		
 	stats.append[tempt_str]
