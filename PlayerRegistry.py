@@ -46,7 +46,8 @@ def pick_oponent(attacker):
 
 def kill_player(player_number):
 	global stats; global influence; global distroyed_counter
-	
+	player_number += 1 #display each player with an offset so there is no player0
+		
 	if distroyed_counter == 1:
 		temp_str = "\nPlayer{} was the first distroyed\n".format(player_number)
 	elif distroyed_counter == 2:
