@@ -22,8 +22,8 @@ def set_up():
 	#looks suspiciously like the factory pattern...hmmmm is this unpythonic?
 	all_players = [User(1)]
 
-	for bot in range(2, SIZE, number_of_players):
-		all_players.append(AI(bot, SIZE, number_of_players))
+	for bot_number in range(2, SIZE + 1):
+		all_players.append(AI(bot_number))
 	#figure out how to draw a gameboard (tkinter?)
 	return all_players
 		
