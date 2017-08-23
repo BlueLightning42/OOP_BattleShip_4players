@@ -26,12 +26,16 @@ def set_up():
 		all_players.append(AI(bot_number))
 	#figure out how to draw a gameboard (tkinter?)
 	return all_players
-		
+
+
+# rlly rlly bad look at that asfk what heck
+# probably non PEP-8 too
 def main_loop(all_players):
 	while len(all_players) > 1:
-		for p in all_players:
-			p.attack(all_players)
-			#update game board?
+		for p in reversed(all_players):
+			if p.attack(all_players):
+				all_players.remove(p)
+			
 	
 	
 def end_program():	
