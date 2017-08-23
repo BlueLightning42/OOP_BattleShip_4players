@@ -41,11 +41,14 @@ class Player:
 		for row in range(1, SIZE-1):
 			for cell in range(1, SIZE-1):
 				#skip cells that are already hit
-				if self.ocean_board[row][cell] == HIT: continue
-				
+				if self.ocean_board[row][cell] is not EMPTY: continue
+					
 				probability=0
 				#add bias to middles
-				if self.ocean_board[row+1][cell] and self.ocean_board[row-1][cell] is
+				if self.ocean_board[row+1][cell] is EMPTY and self.ocean_board[row-1][cell] is EMPTY:
+					probability += 2
+				if self.ocean_board[row][cell+1] is EMPTY and self.ocean_board[row][cell-1] is EMPTY:
+					probability += 2
 				
 				#check in a direction
 				def look_dir(direc):
