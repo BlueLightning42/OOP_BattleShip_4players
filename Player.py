@@ -26,7 +26,7 @@ class Player:
 		
 		
 	def guess(self):
-		#random unoptimal guess (making a stupid ai?)
+		#random unoptimal guess
 		while True:
 			row,cell = randint(1, SIZE), randint(1, SIZE);
 			if self.ocean_board[row][cell] is EMPTY:
@@ -122,7 +122,6 @@ class User(Player):
 		#find user input
 		
 		
-	#Unsure whether I'm doing this right/having the two subclasses initiate a different attack function
 	def attack(self, all_players):
 		#get user input for example
 		x=1;y=1
@@ -142,8 +141,7 @@ class User(Player):
 	
 	
 class AI(Player):
-	
-	#Fixed it I think?
+'''computer the user plays againsed'''
 	def __init__(self, player_number):
 		
 		super().__init__(player_number)
