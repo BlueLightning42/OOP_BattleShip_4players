@@ -115,6 +115,13 @@ class Player:
 	
 
 class User(Player):
+'''the person playing the game'''
+	def __init__(self, player_number):
+		super().__init__(player_number)
+		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
+		#find user input
+		
+		
 	#Unsure whether I'm doing this right/having the two subclasses initiate a different attack function
 	def attack(self, all_players):
 		#get user input for example
