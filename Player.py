@@ -105,6 +105,7 @@ class Player:
 	def hit(self, x, y):
 		if self._ship_board[x-1][y-1]:
 			self.is_hit = True
+			self.ship_cells_left -= 1
 			self.last_hit = (x,y)
 			
 			self.ocean_board[x-1][y-1] = HIT
@@ -131,7 +132,9 @@ class User(Player):
 			PlayerRegistry.hit(chosen_victim, self.player_number, True)
 			all_players[chosen_victim].attack(all_players)
 		else:
-			PlayerRegistry.hit(chosen_victim, self.player_number, False)	
+			PlayerRegistry.hit(chosen_victim, self.player_number, False)
+		
+		return self.ship_cells_left == 0
 
 	def __del__(self):
 		PlayerRegistry.kill_player(self.player_number)
@@ -148,6 +151,8 @@ class AI(Player):
 		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
 		#standard set up
 		all_boats = [5,4,3,3,2]
+		self.ship_cells_left = sum(all_boats)
+		
 		for boat in all_boats:
 			while True:
 				col,row = randint(1, SIZE), randint(1, SIZE);
@@ -181,6 +186,8 @@ class AI(Player):
 			all_players[chosen_victim].attack(all_players)
 		else:
 			PlayerRegistry.hit(chosen_victim, self.player_number, False)	
+		
+		return self.ship_cells_left == 0
 			
 	def __del__(self):
 		PlayerRegistry.kill_player(self.player_number)
