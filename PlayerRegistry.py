@@ -14,13 +14,13 @@ distroyed_counter = 1
 SIZE = 8
 players_alive = 4
 
-def initialize_registry(NUMBER_OF_PLAYERS, size):
+def initialize_registry(number_of_players, size):
 	global hits, ship_hits, influence, SIZE, players_alive
-	hits = [[0 for i in range(NUMBER_OF_PLAYERS)] for k in range(NUMBER_OF_PLAYERS)]
+	hits = [[0 for i in range(number_of_players)] for k in range(number_of_players)]
 	ship_hits = deepcopy(self.hits)
 	influence = deepcopy(self.hits)
 	SIZE = size
-	players_alive = NUMBER_OF_PLAYERS
+	players_alive = number_of_players
 	
 def hit(victim, attacker, has_hit_ship):
 	global hits, ship_hits, influence
@@ -71,6 +71,6 @@ def kill_player(player_number):
 
 def display_stats():
 	fileWriter = open("BattleShip_Stats.txt", w)
-	fileWriter.write(sorted(stats))
+	fileWriter.write("".join(sorted(stats)))
 	fileWriter.close()
 	
