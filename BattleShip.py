@@ -39,6 +39,6 @@ def main_loop(all_players):
 	
 	
 def end_program():	
-	#write stats?
+	PlayerRegistry.write_stats()
 	#show game over screen?
 	pass
