@@ -192,3 +192,7 @@ class AI(Player):
 	def __del__(self):
 		PlayerRegistry.kill_player(self.player_number)
 				
+class dead_player:
+	def attack(self):
+		pass
+
