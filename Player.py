@@ -13,7 +13,6 @@ class Player:
 	'''abstract base class'''
 	def __init__(self, player_number):
 		self.LARGEST_BOAT = 5
-		self.boats_left = 5
 		self.player_number = player_number
 		self.is_hit = False
 		self.last_hit = (0,0)
@@ -190,6 +189,11 @@ class AI(Player):
 				
 class DeadPlayer:
 '''empty class for dead people'''
+	def __init__(self):
+		self.ship_cells_left == 0
+
 	def attack(self, all_players):
 		return False
-
+	
+	def death(self):
+		return self
