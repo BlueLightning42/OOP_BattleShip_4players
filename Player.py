@@ -116,6 +116,7 @@ class Player:
 		
 	def death(self):
 		PlayerRegistry.kill_player(self.player_number)
+		return DeadPlayer
 
 class User(Player):
 '''the person playing the game'''
@@ -187,7 +188,8 @@ class AI(Player):
 			
 	
 				
-class dead_player:
+class DeadPlayer:
+'''empty class for dead people'''
 	def attack(self, all_players):
 		return False
 
