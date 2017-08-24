@@ -174,7 +174,7 @@ class AI(Player):
 		for i in range(length):
 			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
 	
-	def attack(self):
+	def attack(self, all_players):
 		chosen_victim = PlayerRegestry.pick_oponent(self.player_number):
 		if all_players[chosen_victim].is_hit:
 			x,y = all_players[chosen_victim].search()
@@ -193,6 +193,6 @@ class AI(Player):
 		PlayerRegistry.kill_player(self.player_number)
 				
 class dead_player:
-	def attack(self):
-		pass
+	def attack(self, all_players):
+		return False
 
