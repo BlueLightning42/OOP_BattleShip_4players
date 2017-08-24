@@ -33,9 +33,10 @@ def set_up():
 def main_loop(all_players):
 	while PlayerRegistry.players_alive:
 		for p in all_players:
-			if p.attack(all_players):
+			if p.ship_cells_left is not 0:
+				p.attack(all_players)
+			else:
 				p = p.death
-			
 	
 	
 def end_program():	
