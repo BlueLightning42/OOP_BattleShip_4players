@@ -34,7 +34,7 @@ def main_loop(all_players):
 	while PlayerRegistry.players_alive:
 		for p in all_players:
 			if p.attack(all_players):
-				p = dead_player()
+				p = p.death
 			
 	
 	
