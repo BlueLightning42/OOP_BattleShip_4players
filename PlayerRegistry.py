@@ -12,17 +12,18 @@ influence = []
 stats = []
 distroyed_counter = 1
 SIZE = 8
-
+players_alive = 4
 
 def initialize_registry(NUMBER_OF_PLAYERS, size):
-	global hits; global ship_hits; global influence; global SIZE
+	global hits, ship_hits, influence, SIZE, players_alive
 	hits = [[0 for i in range(NUMBER_OF_PLAYERS)] for k in range(NUMBER_OF_PLAYERS)]
 	ship_hits = deepcopy(self.hits)
 	influence = deepcopy(self.hits)
 	SIZE = size
+	players_alive = NUMBER_OF_PLAYERS
 	
 def hit(victim, attacker, has_hit_ship):
-	global hits; global ship_hits; global influence
+	global hits, ship_hits, influence
 	hits[victim][attacker] += 1
 	
 	if has_hit_ship: 
@@ -45,10 +46,13 @@ def pick_oponent(attacker):
 	return chosen_victim
 
 def kill_player(player_number):
-	global stats; global influence; global distroyed_counter
+	global stats, influence, distroyed_counter, players_alive
 	player_number += 1 #display each player with an offset so there is no player0
-		
-	if distroyed_counter == 1:
+	players_alive -= 1
+	
+	if players_alive == 0:
+		temp_str = "\nPlayer{} was the last distroyed\n".format(player_number)
+	elif distroyed_counter == 1:
 		temp_str = "\nPlayer{} was the first distroyed\n".format(player_number)
 	elif distroyed_counter == 2:
 		temp_str = "Player{} was the second distroyed\n".format(player_number)
@@ -64,3 +68,9 @@ def kill_player(player_number):
 		influence[p][player_number] = -100 #remove them from being chosen
 		
 	stats.append[tempt_str]
+
+def display_stats():
+	fileWriter = open("BattleShip_Stats.txt", w)
+	fileWriter.write(sorted(stats))
+	fileWriter.close()
+	
