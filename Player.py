@@ -113,7 +113,9 @@ class Player:
 		else:
 			self.ocean_board[x-1][y-1] = MISS
 			return False
-	
+		
+	def death(self):
+		PlayerRegistry.kill_player(self.player_number)
 
 class User(Player):
 '''the person playing the game'''
@@ -135,12 +137,6 @@ class User(Player):
 			PlayerRegistry.hit(chosen_victim, self.player_number, False)
 		
 		return self.ship_cells_left == 0
-
-	def __del__(self):
-		PlayerRegistry.kill_player(self.player_number)
-		#Game Over
-		#delete all other players
-		pass
 	
 	
 class AI(Player):
@@ -189,8 +185,7 @@ class AI(Player):
 		
 		return self.ship_cells_left == 0
 			
-	def __del__(self):
-		PlayerRegistry.kill_player(self.player_number)
+	
 				
 class dead_player:
 	def attack(self, all_players):
