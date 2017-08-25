@@ -17,7 +17,18 @@ def set_up():
 	#change default size and num?
 	size = 8
 	number_of_players = 4
-	
+	if size <= 4:
+		Person.all_boats = [2,2]
+	elif size == 5:
+		Person.all_boats = [4,3,2,2]
+	elif size <= 8:
+		Person.all_boats = [5,4,3,3,2]
+	elif size <= 12:
+		Person.all_boats = [7,6,5,5,4,3,3,2]
+	else:
+		Person.all_boats = [10,7,6,5,5,4,4,3,2,2]
+		
+		
 	PlayerRegistry.initialize_registry(number_of_players, size)
 	#looks suspiciously like the factory pattern...hmmmm is this unpythonic?
 	all_players = [User(0)]
