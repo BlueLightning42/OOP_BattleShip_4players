@@ -118,7 +118,7 @@ class Player:
 		return DeadPlayer
 
 class User(Player):
-'''the person playing the game'''
+	'''the person playing the game'''
 	def __init__(self, player_number):
 		super().__init__(player_number)
 		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
@@ -140,7 +140,7 @@ class User(Player):
 	
 	
 class AI(Player):
-'''computer the user plays againsed'''
+	'''computer the user plays againsed'''
 	def __init__(self, player_number):
 		
 		super().__init__(player_number)
@@ -171,7 +171,7 @@ class AI(Player):
 			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
 	
 	def attack(self, all_players):
-		chosen_victim = PlayerRegestry.pick_oponent(self.player_number):
+		chosen_victim = PlayerRegistry.pick_oponent(self.player_number):
 		if all_players[chosen_victim].is_hit:
 			x,y = all_players[chosen_victim].search()
 		else:
@@ -188,7 +188,7 @@ class AI(Player):
 	
 				
 class DeadPlayer:
-'''empty class for dead people'''
+	'''empty class for dead people'''
 	def __init__(self):
 		self.ship_cells_left == 0
 
