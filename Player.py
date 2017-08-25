@@ -11,6 +11,7 @@ SHIP = True
 DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	'''abstract base class'''
+	all_boats = [5,4,3,3,2]
 	def __init__(self, player_number):
 		self.LARGEST_BOAT = 5
 		self.player_number = player_number
@@ -124,6 +125,8 @@ class User(Player):
 		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
 		#find user input
 		
+		self.ship_cells_left = sum(all_boats)
+		
 		
 	def attack(self, all_players):
 		#get user input for example
@@ -146,7 +149,6 @@ class AI(Player):
 		super().__init__(player_number)
 		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
 		#standard set up
-		all_boats = [5,4,3,3,2]
 		self.ship_cells_left = sum(all_boats)
 		
 		for boat in all_boats:
