@@ -52,13 +52,11 @@ class Player:
 				
 				#check in a direction
 				def look_dir(direc):
-					nonlocal row, cell
-					prob = 0
+					nonlocal row, cell, probability
 					for j in range(1, self.LARGEST_BOAT):
 						if self.ocean_board[row + direc[0]*j][cell + direc[1]*j] is EMPTY:
-							prob += (self.LARGEST_BOAT+1-j)
+							probability += (self.LARGEST_BOAT+1-j)
 						else: break
-					return prob
 				
 				look_dir(DIRRECTIONS[0]) #up
 				look_dir(DIRRECTIONS[1]) #down
