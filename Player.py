@@ -50,18 +50,23 @@ class Player:
 				if self.ocean_board[row][cell+1] is EMPTY and self.ocean_board[row][cell-1] is EMPTY:
 					probability += 2
 				
-				#check in a direction
-				def look_dir(direc):
-					nonlocal row, cell, probability
-					for j in range(1, self.LARGEST_BOAT):
-						if self.ocean_board[row + direc[0]*j][cell + direc[1]*j] is EMPTY:
-							probability += (self.LARGEST_BOAT+1-j)
-						else: break
-				
-				look_dir(DIRRECTIONS[0]) #up
-				look_dir(DIRRECTIONS[1]) #down
-				look_dir(DIRRECTIONS[2]) #left
-				look_dir(DIRRECTIONS[3]) #right
+				#check all dirrections
+				for j in range(1, self.LARGEST_BOAT):
+					if self.ocean_board[row + j][cell] is EMPTY:
+						probability += (self.LARGEST_BOAT+1-j)
+					else: break
+				for j in range(1, self.LARGEST_BOAT):
+					if self.ocean_board[row][cell + j] is EMPTY:
+						probability += (self.LARGEST_BOAT+1-j)
+					else: break
+				for j in range(1, self.LARGEST_BOAT):
+					if self.ocean_board[row - j][cell] is EMPTY:
+						probability += (self.LARGEST_BOAT+1-j)
+					else: break
+				for j in range(1, self.LARGEST_BOAT):
+					if self.ocean_board[row][cell - j] is EMPTY:
+						probability += (self.LARGEST_BOAT+1-j)
+					else: break
 
 				#decide if stronger probability
 				if probability > higest_probability:
