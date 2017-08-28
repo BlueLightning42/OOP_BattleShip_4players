@@ -13,14 +13,10 @@ stats = []
 distroyed_counter = 1
 SIZE = 8
 players_alive = 4
+all_players = []
+total_ship_cells = 0
 
-def initialize_registry(number_of_players, size):
-	global hits, ship_hits, influence, SIZE, players_alive
-	hits = [[0 for i in range(number_of_players)] for k in range(number_of_players)]
-	ship_hits = deepcopy(self.hits)
-	influence = deepcopy(self.hits)
-	SIZE = size
-	players_alive = number_of_players
+
 	
 def hit(victim, attacker, has_hit_ship):
 	global hits, ship_hits, influence
@@ -35,12 +31,13 @@ def hit(victim, attacker, has_hit_ship):
 		influence[attacker][victim] -= 1
 		
 def pick_oponent(attacker):
-	chosen_victim = 0
+	chosen_victim = 0 #attack the user by default
 	highest_influece = 0
 	
 	for victim in range(len(influence)):
 		if victim is attacker: continue #no self attacks
-		if influence[victim][attacker] + randint(-10, 10) > highest_influence:
+		# How annoyied an ai is at someone and how much of a threat they pose
+		if influence[victim][attacker] + (total_ship_cells - all_players(victim).ship_cells_left)*3 + randint(-10, 10) > highest_influence:
 			highest_influece = influence[victim][attacker]
 			chosen_victim = victim
 	return chosen_victim
