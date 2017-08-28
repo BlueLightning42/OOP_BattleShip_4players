@@ -9,9 +9,7 @@ set_up();
 main_loop();
 #terminate
 end_program();
-
-#currently using placeholder names for planned functions may change at future points
-
+	
 
 def set_up():
 	#change default size and num?
@@ -27,9 +25,13 @@ def set_up():
 		Person.all_boats = [7,6,5,5,4,3,3,2]
 	else:
 		Person.all_boats = [10,7,6,5,5,4,4,3,2,2]
-		
-		
-	PlayerRegistry.initialize_registry(number_of_players, size)
+	
+	PlayerRegistry.hits = [[0 for i in range(number_of_players)] for k in range(number_of_players)]
+	PlayerRegistry.ship_hits = deepcopy(self.hits)
+	PlayerRegistry.influence = deepcopy(self.hits)
+	PlayerRegistry.SIZE = size
+	PlayerRegistry.players_alive = number_of_players
+	PlayerRegistry.total_ship_cells = sum(Person.all_boats)
 	
 	#Store all the players in the registry
 	PlayerRegistry.all_players = [User(0)]
@@ -40,7 +42,7 @@ def set_up():
 
 # rlly rlly bad look at that asfk what heck
 # probably non PEP-8 too
-def main_loop(all_players):
+def main_loop():
 	while PlayerRegistry.players_alive:
 		for p in PlayerRegistry.all_players:
 			if p.ship_cells_left is not 0:
