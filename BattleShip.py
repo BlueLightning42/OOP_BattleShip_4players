@@ -26,9 +26,6 @@ def set_up():
 	else:
 		Person.all_boats = [10,7,6,5,5,4,4,3,2,2]
 	
-	PlayerRegistry.hits = [[0 for i in range(number_of_players)] for k in range(number_of_players)]
-	PlayerRegistry.ship_hits = deepcopy(self.hits)
-	PlayerRegistry.influence = deepcopy(self.hits)
 	PlayerRegistry.SIZE = size
 	PlayerRegistry.players_alive = number_of_players
 	PlayerRegistry.total_ship_cells = sum(Person.all_boats)
