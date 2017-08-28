@@ -30,7 +30,7 @@ class Player:
 		
 		self.hits = [0 for i in range(number_of_players)]
 		self.ship_hits = deepcopy(self.hits)
-		self.influence = deepcopy(self.hits)
+		self.bad_influence = deepcopy(self.hits)
 		
 		
 		
