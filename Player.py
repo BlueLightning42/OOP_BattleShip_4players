@@ -28,6 +28,12 @@ class Player:
 
 		self.ship_cells_left = PlayerRegistry.total_ship_cells
 		
+		self.hits = [0 for i in range(number_of_players)]
+		self.ship_hits = deepcopy(self.hits)
+		self.influence = deepcopy(self.hits)
+		
+		
+		
 	def guess(self):
 		'''This is so the code doesn't look as mechanical
 		-ocationally have the AI make a radom unoptimal guess'''
