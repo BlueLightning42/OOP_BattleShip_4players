@@ -6,9 +6,6 @@
 # ahhhhhhhhh only writing this cause I don't think anyone will ever read it.
 
 # Is this even more stupid? Do I not need to initialize the lists outside of the function first?
-hits = []
-ship_hits = []
-influence = []
 stats = []
 distroyed_counter = 1
 SIZE = 8
@@ -19,16 +16,15 @@ total_ship_cells = 0
 
 	
 def hit(victim, attacker, has_hit_ship):
-	global hits, ship_hits, influence
-	hits[victim][attacker] += 1
-	
+	'''store all information about hit and add bad influence to the attacker'''
+	all_players(attacker).hits[victim] += 1
 	if has_hit_ship: 
-		ship_hits[victim][attacker] += 1
-		influence[victim][attacker] += 10
-		influence[attacker][victim] -= 5
+		all_players(attacker).ship_hits[victim] += 1
+		all_players(attacker).bad_influence[victim] += 10
+		all_players(victim).bad_influence[attacker] -= 5
 	else:
-		influence[victim][attacker] += 3
-		influence[attacker][victim] -= 1
+		all_players(attacker).bad_influence[victim] += 3
+		all_players(victim).bad_influence[attacker] -= 1
 		
 def pick_oponent(attacker):
 	chosen_victim = 0 #attack the user by default
@@ -36,14 +32,20 @@ def pick_oponent(attacker):
 	
 	for victim in range(len(influence)):
 		if victim is attacker: continue #no self attacks
+
 		# How annoyied an ai is at someone and how much of a threat they pose
-		if influence[victim][attacker] + (total_ship_cells - all_players(victim).ship_cells_left)*3 + randint(-10, 10) > highest_influence:
-			highest_influece = influence[victim][attacker]
+		if all_players(attacker).bad_influence[victim] 
+		+ (total_ship_cells - all_players(victim).ship_cells_left)*3 
+		+ randint(-10, 10) 
+		> highest_influence:
+			
+			highest_influece = all_players(attacker).bad_influence[victim]
 			chosen_victim = victim
+			
 	return chosen_victim
 
 def kill_player(player_number):
-	global stats, influence, distroyed_counter, players_alive
+	global stats, distroyed_counter, players_alive
 	player_number += 1 #display each player with an offset so there is no player0
 	players_alive -= 1
 	
@@ -60,9 +62,9 @@ def kill_player(player_number):
 	distroyed_counter += 1
 	
 	for p in range(len(hits));
-		temp_str.append("They hit Player{} {} times\n".format(p, hits[p][player_number])
-		temp_str.append("and were hit by Player{} {} times\n".format(p, hits[player_number][p])
-		influence[p][player_number] = -100 #remove them from being chosen
+		temp_str.append("They hit Player{} {} times\n".format(p, all_players(player_number).hits[p])
+		temp_str.append("and were hit by Player{} {} times\n".format(p, all_players(p).hits[player_number])
+		all_players(p).bad_influence[player_number] = -100 #remove them from being chosen
 		
 	stats.append[tempt_str]
 
