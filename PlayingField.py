@@ -8,29 +8,28 @@
 #OR just set up a 2d array of buttons and figure out how to link them to the "ship_board" list for each player
 
 from PlayerRegistry import SIZE
+import os.path
+import tkinter as tk
 
 
+HIT_img = tk.PhotoImage(os.path.join("images","HIT.jpg"))
+MISS_img = tk.PhotoImage(os.path.join("images","HIT.jpg"))
+EMPTY_img = tk.PhotoImage(os.path.join("images","HIT.jpg"))
 
 
-HIT = True
-MISS = False
-EMPTY = None
-
-class Tile():
-	'''ocean cell for the grid'''
-	def __init__(self):
-		self.state = EMPTY
-		return self
-	
-	
-class Grid():
+class Grid(tk.Frame):
 	'''grid for each player'''
 	def __init__(self)
-		self.ocean_grid = [[Tile() for i in range(SIZE)] for j in range(SIZE)
-		return self
-	
-	def update_grid(self, row, cell, has_hit):
-		if has_hit:
-			self.ocean_grid[row+1][cell+1].state = HIT
-		else:
-			self.ocean_grid[row+1][cell+1].state = MISS
+		for i in range(SIZE):
+			self.button_grid.append([])
+			for j in range(SIZE):
+				self.buttons[i].append(tk.Button(self, image=EMPTY_img, bg="blue", command=grid_click))
+				self.ocean.(row=i, column=j, sticky="nsew")
+	def grid_click(self):
+		
+		pass
+		
+	def update(self, row, cell, has_hit):
+		'''update the state of the grid when ever its hit'''
+		if 
+		self.ocean_grid[row-1][cell-1].state = has_hit
