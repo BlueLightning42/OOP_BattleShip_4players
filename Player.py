@@ -2,7 +2,8 @@
 from random import randint, choice
 from copy import deepcopy
 import PlayerRegistry
-from PlayerRegistry import SIZE
+from PlayerRegistry import SIZE, all_players
+
 HIT = True
 MISS = False
 EMPTY = None
@@ -25,7 +26,7 @@ class Player:
 		#Initialise the Empty secret ship board
 		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
 
-		self.ship_cells_left = sum(all_boats)
+		self.ship_cells_left = PlayerRegistry.total_ship_cells
 		
 	def guess(self):
 		'''This is so the code doesn't look as mechanical
@@ -135,9 +136,11 @@ class User(Player):
 	'''the person playing the game'''
 	def __init__(self, player_number):
 		super().__init__(player_number)
+		#Initialise once the total cells
+		PlayerRegistry.total_ship_cells = self.ship_cells_left
 		#Get user input from the form.
-		
-	def attack(self, all_players):
+
+	def attack(self):
 		#get user input for example
 		x=1;y=1
 		chosen_victim = 1
@@ -156,6 +159,7 @@ class AI(Player):
 	def __init__(self, player_number):
 		super().__init__(player_number)
 		
+		#computer chosing where to hide thire boats
 		for boat in all_boats:
 			while True:
 				col,row = randint(1, SIZE), randint(1, SIZE);
@@ -177,7 +181,7 @@ class AI(Player):
 		for i in range(length):
 			self._ship_board[col + i*direction[0]][row + i*direction[1]] = SHIP
 	
-	def attack(self, all_players):
+	def attack(self):
 		'''function called for every ai instance
 		-will chose who to attack then hit them'''
 		chosen_victim = PlayerRegistry.pick_oponent(self.player_number):
