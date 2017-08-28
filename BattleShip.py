@@ -4,9 +4,9 @@ from Player import Player, User, Ai
 import ShipBoard
 import PlayerRegistry
 #set up all players
-all_players = set_up();
+set_up();
 #play game
-main_loop(all_players);
+main_loop();
 #terminate
 end_program();
 
@@ -30,22 +30,21 @@ def set_up():
 		
 		
 	PlayerRegistry.initialize_registry(number_of_players, size)
-	#looks suspiciously like the factory pattern...hmmmm is this unpythonic?
-	all_players = [User(0)]
+	
+	#Store all the players in the registry
+	PlayerRegistry.all_players = [User(0)]
 
 	for bot_number in range(1, SIZE):
-		all_players.append(AI(bot_number))
-	#figure out how to draw a gameboard (tkinter?)
-	return all_players
+		PlayerRegistry.all_players.append(AI(bot_number))
 
 
 # rlly rlly bad look at that asfk what heck
 # probably non PEP-8 too
 def main_loop(all_players):
 	while PlayerRegistry.players_alive:
-		for p in all_players:
+		for p in PlayerRegistry.all_players:
 			if p.ship_cells_left is not 0:
-				p.attack(all_players)
+				p.attack()
 			else:
 				p = p.death
 	
