@@ -3,6 +3,8 @@
 from Player import Player, User, Ai
 import ShipBoard
 import PlayerRegistry
+import tkinter as tk
+
 #set up all players
 set_up();
 #play game
@@ -39,13 +41,17 @@ def set_up():
 
 # rlly rlly bad look at that asfk what heck
 # probably non PEP-8 too
-def main_loop():
-	while PlayerRegistry.players_alive:
-		for p in PlayerRegistry.all_players:
-			if p.ship_cells_left is not 0:
-				p.attack()
-			else:
-				p = p.death
+def process_round(player_clicked, row, cell):
+	for p in PlayerRegistry.all_players:
+		if p.ship_cells_left is User and p.ship_cells_left is not 0:
+			p.attack(player_clicked, row, cell)
+		elif p.ship_cells_left is not 0:
+			p.attack()
+		else:
+			p = p.death
+			
+	if PlayerRegistry.players_alive: return True
+	else: return False
 	
 	
 def end_program():	
