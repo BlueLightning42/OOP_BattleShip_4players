@@ -5,14 +5,6 @@ import ShipBoard
 import PlayerRegistry
 import tkinter as tk
 
-#set up all players
-set_up();
-#play game
-main_loop();
-#terminate
-end_program();
-	
-
 def set_up():
 	#change default size and num?
 	size = 8
@@ -39,8 +31,6 @@ def set_up():
 		PlayerRegistry.all_players.append(AI(bot_number))
 
 
-# rlly rlly bad look at that asfk what heck
-# probably non PEP-8 too
 def process_round(player_clicked, row, cell):
 	for p in PlayerRegistry.all_players:
 		if p.ship_cells_left is User and p.ship_cells_left is not 0:
@@ -49,12 +39,28 @@ def process_round(player_clicked, row, cell):
 			p.attack()
 		else:
 			p = p.death
-			
-	if PlayerRegistry.players_alive: return True
-	else: return False
 	
 	
 def end_program():	
 	PlayerRegistry.write_stats()
 	#show game over screen?
 	pass
+
+if __name__ == '__main__':
+	#set up all players
+	set_up();
+	
+	#play game
+	root = tk.Tk()
+	root.grid()
+	for p in all_players:
+		player_frame = Grid(p.player_number)
+		root.player_frame.pack()
+		
+	root.mainloop()
+	
+	#write stats at the end of the game
+	end_program();
+
+	
+
