@@ -8,16 +8,21 @@ import tkinter as tk
 import BattleShip
 
 HIT_img = tk.PhotoImage(os.path.join("images","HIT.jpg"))
-MISS_img = tk.PhotoImage(os.path.join("images","HIT.jpg"))
-EMPTY_img = tk.PhotoImage(os.path.join("images","HIT.jpg"))
+MISS_img = tk.PhotoImage(os.path.join("images","MISS.jpg"))
+EMPTY_img = tk.PhotoImage(os.path.join("images","EMPTY.jpg"))
+#for the user's board
+BLANK_img = tk.PhotoImage(os.path.join("images","BLANK.jpg"))
+BOAT_img = tk.PhotoImage(os.path.join("images","BOAT.jpg"))
 
 class Tile(tk.Button):
 	'''ocean tile for the player's board'''
 	def __init__(self, master, row, cell, *args, **kwargs):
 		self.cord = (row, cell)
-		super().__init__(self,command=lambda (row,cell) = self.cord: master.grid_click(row, cell), *args, **kwargs)
-		self.config(image=EMPTY_img, width="32", height="32")
-		
+		super().__init__(self, *args, **kwargs)
+		if master.player_number is 0:
+			self.config(image=BLANK_img, width="32", height="32", state = DISABLED)
+		else:
+			self.config(image=EMPTY_img, width="32", height="32", command=lambda (row,cell) = self.cord: master.grid_click(row, cell))
 		
 	def update(self, has_hit):
 		'''update the state of the grid when ever its hit'''
