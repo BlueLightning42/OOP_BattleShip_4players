@@ -34,12 +34,13 @@ class Tile(tk.Button):
 class Grid(tk.Frame):
 	'''grid for each player'''
 	def __init__(self, player_number)
+		super().__init__(self, width=SIZE*32, height=SIZE*32, bd=1, relief=Tk.SUNKEN)
 		self.player_number = player_number
 		#self.button_grid = [[Tile(i, j) for i in range(SIZE)] for j in range(SIZE)]
 		for i in range(SIZE):
 			for j in range(SIZE)
 				self.ocean[i][j].append(Tile(self, i, j)
-			
+				self.grid(master=self, fill=self.ocean[i][j], row=i, column=j)
 				
 	def grid_click(self, row, cell):
 		BattleShip.process_round(self.player_number, row+1, cell+1):
