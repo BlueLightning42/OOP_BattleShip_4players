@@ -6,20 +6,35 @@ import PlayerRegistry
 import tkinter as tk
 
 def set_up():
-	#change default size and num?
-	size = 8
-	number_of_players = 4
-	if size <= 4:
-		Person.all_boats = [2,2]
-	elif size == 5:
-		Person.all_boats = [4,3,2,2]
-	elif size <= 8:
-		Person.all_boats = [5,4,3,3,2]
-	elif size <= 12:
-		Person.all_boats = [7,6,5,5,4,3,3,2]
+	#three presets currently input will change to GUI
+	prest = int(input("enter preset: (message doesn't matter as it will be removed)"))
+	if prest == 1:
+		size = 8
+		number_of_players = 4
+		boats = [5,4,3,3,2]
+	elif prest == 2:
+		size = 10
+		number_of_players = 2
+		boats = [5,4,3,3,2]
+	elif prest == 3:
+		size = 6
+		number_of_players = 6
+		boats = [4,3,2,2]
+	elif prest == 4:
+		size = 12
+		number_of_players = 3
+		boats = [7,6,5,5,4,3,3,2]
+	elif prest == 5
+		size = 12
+		number_of_players = 3
+		boats = [10,7,6,5,5,4,4,3,2,2]
 	else:
-		Person.all_boats = [10,7,6,5,5,4,4,3,2,2]
+		size = int(input("size:"))
+		number_of_players = int(input("Number of players"))
+		boats =  list(map(int, input("boat set up in the form '8 7 3'").split(" "))
+			      
 	
+	Person.all_boats = boats
 	PlayerRegistry.SIZE = size
 	PlayerRegistry.players_alive = number_of_players
 	PlayerRegistry.total_ship_cells = sum(Person.all_boats)
