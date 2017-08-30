@@ -146,11 +146,7 @@ class User(Player):
 		PlayerRegistry.total_ship_cells = self.ship_cells_left
 		#Get user input from the form.
 
-	def attack(self):
-		#get user input for example
-		x=1;y=1
-		chosen_victim = 1
-		
+	def attack(self, chosen_victim, x, y):
 		if all_players[chosen_victim].hit(x, y):
 			PlayerRegistry.hit(chosen_victim, self.player_number, True)
 			all_players[chosen_victim].attack(all_players)
@@ -169,7 +165,7 @@ class AI(Player):
 		for boat in all_boats:
 			while True:
 				col,row = randint(1, SIZE), randint(1, SIZE);
-				direction = DIRRECTIONS[randint(0,1)]
+				direction = DIRRECTIONS[randint(0,3)]
 				
 				if self.validate_direction(col, row, boat, direction): 
 					self.fill_direction(col, row, boat, direction)
