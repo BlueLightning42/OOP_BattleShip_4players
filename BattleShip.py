@@ -48,13 +48,12 @@ def set_up():
 
 def process_round(player_clicked, row, cell):
 	for p in PlayerRegistry.all_players:
-		if p.ship_cells_left is User and p.ship_cells_left is not 0:
+		if p is User and p.ship_cells_left is not 0:
 			p.attack(player_clicked, row, cell)
-		elif p.ship_cells_left is not 0:
+		elif p is AI and p.ship_cells_left is not 0:
 			p.attack()
-		else:
+		else p is not dead_player:
 			p = p.death
-	
 	
 def end_program():	
 	PlayerRegistry.write_stats()
