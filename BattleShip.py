@@ -1,4 +1,4 @@
-#Main file 
+#Main file
 
 from Player import Player, User, Ai
 import ShipBoard
@@ -24,21 +24,21 @@ def set_up():
 		size = 12
 		number_of_players = 3
 		boats = [7,6,5,5,4,3,3,2]
-	elif prest == 5
+	elif prest == 5:
 		size = 12
 		number_of_players = 3
 		boats = [10,7,6,5,5,4,4,3,2,2]
 	else:
 		size = int(input("size:"))
 		number_of_players = int(input("Number of players"))
-		boats =  list(map(int, input("boat set up in the form '8 7 3'").split(" "))
-			      
-	
-	Person.all_boats = boats
+		boats = list(map(int, input("boat set up in the form '8 7 3'").split(" ")))
+
+
+	PlayerRegistry.all_posible_boats = boats
 	PlayerRegistry.SIZE = size
 	PlayerRegistry.players_alive = number_of_players
 	PlayerRegistry.total_ship_cells = sum(Person.all_boats)
-	
+
 	#Store all the players in the registry
 	PlayerRegistry.all_players = [User(0)]
 
@@ -52,10 +52,10 @@ def process_round(player_clicked, row, cell):
 			p.attack(player_clicked, row, cell)
 		elif p is AI and p.ship_cells_left is not 0:
 			p.attack()
-		else p is not dead_player:
+		elif p is not DeadPlayer:
 			p = p.death
-	
-def end_program():	
+
+def end_program():
 	PlayerRegistry.write_stats()
 	#show game over screen?
 	pass
@@ -63,18 +63,15 @@ def end_program():
 if __name__ == '__main__':
 	#set up all players
 	set_up();
-	
+
 	#play game
 	root = tk.Tk()
 	root.grid()
 	for p in all_players:
 		player_frame = Grid(p.player_number)
 		root.player_frame.pack()
-		
+
 	root.mainloop()
-	
+
 	#write stats at the end of the game
 	end_program();
-
-	
-
