@@ -7,5 +7,4 @@ Mainly to play around and try to learn python by writing a project I wrote in C+
 And cause I wanted to challenge myself everything is set up so you can change the set-up/number of players size of board.
 Potentially will take me awhile cause I'm not working on it consistently.
 
-
-OKAY BUT LOW KEY I HAVE NO CLUE WHAT I'M DOING SO IF YOU HAVE ANY TIPS ON HOW TO BE PYTHONIC FEEL FREE TO SHARE
+Also at any given moment it may not be functional due to working on it in a environment where I can't test it

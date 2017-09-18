@@ -28,9 +28,9 @@ def hit(victim, attacker, has_hit_ship):
 		all_players(victim).bad_influence[attacker] -= 1
 
 def pick_oponent(attacker):
-	"""Function called by Ai to chose who to attack"""
+	"""Function called by Ai to chose who to attack."""
 	chosen_victim = 0  # Attack the user by default
-	highest_influece = 0
+	highest_influence = 0
 
 	for victim in range(len(all_players)):
 		if victim is attacker: continue  # No self attacks
@@ -38,12 +38,13 @@ def pick_oponent(attacker):
 		#  How annoyied an ai is at someone and how much of a threat they pose
 		if all_players(attacker).bad_influence[victim] + (total_ship_cells - all_players(victim).ship_cells_left)*3 + randint(-10, 10) > highest_influence:
 
-			highest_influece = all_players(attacker).bad_influence[victim]
+			highest_influence = all_players(attacker).bad_influence[victim]
 			chosen_victim = victim
 
 	return chosen_victim
 
 def kill_player(player_number):
+	"""Function called to add stats and remove the ability to attack player."""
 	global stats, distroyed_counter, players_alive
 	player_number += 1  # Display each player with an offset so there is no player0
 	players_alive -= 1
@@ -60,14 +61,15 @@ def kill_player(player_number):
 		temp_str = "Player{} was the {}th distroyed\n".format(player_number, distroyed_counter)
 	distroyed_counter += 1
 
-	for p in range(len(hits)):
+	for p in range(len(all_players)):
 		temp_str.append("They hit Player{} {} times\n".format(p, all_players(player_number).hits[p]))
 		temp_str.append("and were hit by Player{} {} times\n".format(p, all_players(p).hits[player_number]))
 		all_players(p).bad_influence[player_number] = -100  # Remove them from being chosen
 
-	stats.append[tempt_str]
+	stats.append[temp_str]
 
 def display_stats():
-	fileWriter = open("BattleShip_Stats.txt", w)
+	"""At the end of the game function is called to write stats."""
+	fileWriter = open("BattleShip_Stats.txt", "w")
 	fileWriter.write("".join(sorted(stats)))
 	fileWriter.close()
