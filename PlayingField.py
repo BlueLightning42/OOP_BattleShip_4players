@@ -2,9 +2,8 @@
 
 # To do...absolutly everything starting from how to do gui programming.
 
-from PlayerRegistry import SIZE
+from PlayerRegistry import Registry
 import BattleShip
-import PlayerRegistry
 import os.path
 import tkinter as tk
 
@@ -39,12 +38,13 @@ class OceanGrid(tk.Frame):
 	"""Grid for each player."""
 
 	def __init__(self, player_number):
-		tk.Frame.__init__(self, width=SIZE*32, height=SIZE*32, bd=1, relief=tk.SUNKEN)  # super()__init__ not working?
+		self.size = registry.size
+		tk.Frame.__init__(self, width=self.size*32, height=self.size*32, bd=1, relief=tk.SUNKEN)  # super()__init__ not working?
 		self.player_number = player_number
 
-		self.ocean = [[Tile(self, i, j) for i in range(SIZE)] for j in range(SIZE)]
-		for i in range(SIZE):
-			for j in range(SIZE):
+		self.ocean = [[Tile(self, i, j) for i in range(self.size)] for j in range(self.size)]
+		for i in range(self.size):
+			for j in range(self.size):
 				self.ocean[i][j].grid(row=i, column=j)
 
 	def grid_click(self, row, cell):
@@ -59,13 +59,13 @@ class OceanGrid(tk.Frame):
 class App(tk.Tk):
 	"""Top-this is the main app.  Will be changed once I get the grid to work."""
 
-	def __init__(self, game_state):
-		(size, boats, number_of_players) = game_state
+	def __init__(self, r):
 		tk.Tk.__init__(self)
-		width = int(number_of_players ** 0.5)
+		self.registry = r
+		width = int(registry.number_of_players ** 0.5)
 
-		for p in PlayerRegistry.all_players:
-			OceanGrid(size, p.player_number).grid(row=p.player_number % width, column=int(p.player_number/2), padx=5, pady=5)
+		for p in registry.all_players:
+			OceanGrid(self.size, p.player_number).grid(row=p.player_number % width, column=int(p.player_number/2), padx=5, pady=5)
 
 
 # Testing.

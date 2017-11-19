@@ -2,7 +2,7 @@
 
 from Player import User, AI, DeadPlayer
 import PlayingField
-import PlayerRegistry
+from PlayerRegistry import Registry
 # import tkinter as tk
 
 def set_up():
@@ -35,16 +35,13 @@ def set_up():
 		boats = list(map(int, input("boat set up in the form '8 7 3'").split(" ")))
 
 	# Store all the players in the registry
-	PlayerRegistry.all_players = [User(0)]
+	r = Registry(size, boats, number_of_players)
 
-	for bot_number in range(1, size):
-		PlayerRegistry.all_players.append(AI(bot_number))
-
-	return (size, boats, number_of_players)
+	return r
 
 def process_round(player_clicked, row, cell):
 	"""Function Processes a single round with everyone hitting after the user."""
-	for p in PlayerRegistry.all_players:
+	for p in registry.all_players:
 		if p is User and p.ship_cells_left is not 0:
 			p.attack(player_clicked, row, cell)
 		elif p is AI and p.ship_cells_left is not 0:
@@ -52,18 +49,18 @@ def process_round(player_clicked, row, cell):
 		elif p is not DeadPlayer:
 			p = p.death
 
-def end_program():
+def end_program(registry):
 	"""After ending the program write stats and show game over screen."""
-	PlayerRegistry.write_stats()
+	registry.write_stats()
 	# Show game over screen?
 	pass
 
 
 if __name__ == '__main__':
-	game_state = set_up()
+	r = set_up()
 
 	# play game
-	root = PlayingField.App(game_state)
+	root = PlayingField.App(r)
 	root.mainloop()
 
 	# write stats at the end of the game

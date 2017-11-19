@@ -1,8 +1,7 @@
 """Player class including both the ai and the user."""
 from random import randint, choice
 from copy import deepcopy
-import PlayerRegistry
-from PlayerRegistry import SIZE, all_players, players_alive
+from PlayerRegistry import Registry
 
 HIT = True
 MISS = False
@@ -14,20 +13,21 @@ DIRRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 class Player:
 	"""Abstract base class."""
 
-	def __init__(self, player_number):
+	def __init__(self, player_number, registry):
 		"""Initialize all atributes every player shares."""
 		self.LARGEST_BOAT = 5
 		self.player_number = player_number
 		self.is_hit = False
 		self.last_hit = (0,0)
+		self.size = registry.size
 
 		# Initializes a game board
-		self.ocean_board = [[MISS for i in range(SIZE+2)] if (not x or not (SIZE-x+1)) else [MISS if (not i or not (SIZE-i+1)) else EMPTY for i in range(SIZE+2)] for x in range(SIZE+2)]
+		self.ocean_board = [[MISS for i in range(self.size+2)] if (not x or not (self.size-x+1)) else [MISS if (not i or not (self.size-i+1)) else EMPTY for i in range(self.size+2)] for x in range(self.size+2)]
 
 		# Initialise the Empty secret ship board
-		self._ship_board = [[MISS for i in range(SIZE)] for x in range(SIZE)]
+		self._ship_board = [[MISS for i in range(self.size)] for x in range(self.size)]
 
-		self.ship_cells_left = PlayerRegistry.total_ship_cells
+		self.ship_cells_left = registry.total_ship_cells
 
 		self.hits = [0 for i in range(players_alive)]
 		self.ship_hits = deepcopy(self.hits)
@@ -38,7 +38,7 @@ class Player:
 		-ocationally have the AI make a radom unoptimal guess
 		"""
 		while True:
-			row,cell = randint(1, SIZE), randint(1, SIZE)
+			row,cell = randint(1, self.size), randint(1, self.size)
 			if self.ocean_board[row][cell] is EMPTY:
 				return row,cell
 
@@ -52,8 +52,8 @@ class Player:
 		higest_probability = 0
 
 		# check each cell
-		for row in range(1, SIZE-1):
-			for cell in range(1, SIZE-1):
+		for row in range(1, self.size-1):
+			for cell in range(1, self.size-1):
 				# skip cells that are already hit
 				if self.ocean_board[row][cell] is not EMPTY: continue
 
@@ -135,7 +135,7 @@ class Player:
 			return False
 
 	def death(self):
-		PlayerRegistry.kill_player(self.player_number)
+		registry.kill_player(self.player_number)
 		return DeadPlayer
 
 class User(Player):
@@ -144,15 +144,15 @@ class User(Player):
 	def __init__(self, player_number):
 		super().__init__(player_number)
 		# Initialise once the total cells
-		PlayerRegistry.total_ship_cells = self.ship_cells_left
+		registry.total_ship_cells = self.ship_cells_left
 		# Get user input from the form.
 
 	def attack(self, chosen_victim, x, y):
 		if all_players[chosen_victim].hit(x, y):
-			PlayerRegistry.hit(chosen_victim, self.player_number, True)
+			registry.hit(chosen_victim, self.player_number, True)
 			all_players[chosen_victim].attack(all_players)
 		else:
-			PlayerRegistry.hit(chosen_victim, self.player_number, False)
+			registry.hit(chosen_victim, self.player_number, False)
 
 		return self.ship_cells_left == 0
 
@@ -164,9 +164,9 @@ class AI(Player):
 		super().__init__(player_number)
 
 		# computer chosing where to hide thire boats
-		for boat in PlayerRegistry.all_posible_boats:
+		for boat in registry.all_posible_boats:
 			while True:
-				col,row = randint(1, SIZE), randint(1, SIZE)
+				col,row = randint(1, self.size), randint(1, self.size)
 				direction = DIRRECTIONS[randint(0,3)]
 
 				if self.validate_direction(col, row, boat, direction):
@@ -189,17 +189,17 @@ class AI(Player):
 		"""Method called for every ai instance.
 		-will chose who to attack then hit them.
 		"""
-		chosen_victim = PlayerRegistry.pick_oponent(self.player_number)
+		chosen_victim = registry.pick_oponent(self.player_number)
 		if all_players[chosen_victim].is_hit:
 			x,y = all_players[chosen_victim].search()
 		else:
 			x,y = all_players[chosen_victim].generate_probability()
 
 		if all_players[chosen_victim].hit(x, y):
-			PlayerRegistry.hit(chosen_victim, self.player_number, True)
+			registry.hit(chosen_victim, self.player_number, True)
 			all_players[chosen_victim].attack(all_players)
 		else:
-			PlayerRegistry.hit(chosen_victim, self.player_number, False)
+			registry.hit(chosen_victim, self.player_number, False)
 
 		return self.ship_cells_left == 0
 
