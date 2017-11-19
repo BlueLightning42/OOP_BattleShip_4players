@@ -19,8 +19,8 @@ BOAT_img = tk.PhotoImage(os.path.join("images","BOAT.jpg"))
 class Tile(tk.Button):
 	"""Ocean tile for the player's board."""
 
-	def __init__(self, master, row, cell, *args, **kwargs):
-		self.row = row,
+	def __init__(self, master, row, cell):
+		self.row = row
 		self.cell = cell
 		tk.Button.__init__(self, master)
 		if master.player_number is 0:
@@ -35,7 +35,7 @@ class Tile(tk.Button):
 		else:
 			self.config(image=MISS_img, state=tk.DISABLED)
 
-class Grid(tk.Frame):
+class OceanGrid(tk.Frame):
 	"""Grid for each player."""
 
 	def __init__(self, player_number):
@@ -58,9 +58,14 @@ class Grid(tk.Frame):
 
 class App(tk.Tk):
 	"""Top-this is the main app.  Will be changed once I get the grid to work."""
-	def __init__(self):
+
+	def __init__(self, game_state):
+		(size, boats, number_of_players) = game_state
+		tk.Tk.__init__(self)
+		width = int(number_of_players ** 0.5)
+
 		for p in PlayerRegistry.all_players:
-			Grid(p.player_number).pack(padx=5, pady=5)
+			OceanGrid(size, p.player_number).grid(row=p.player_number % width, column=int(p.player_number/2), padx=5, pady=5)
 
 
 # Testing.

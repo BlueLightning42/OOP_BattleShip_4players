@@ -34,17 +34,13 @@ def set_up():
 		number_of_players = int(input("Number of players"))
 		boats = list(map(int, input("boat set up in the form '8 7 3'").split(" ")))
 
-	PlayerRegistry.all_posible_boats = boats
-	PlayerRegistry.SIZE = size
-	PlayerRegistry.players_alive = number_of_players
-	PlayerRegistry.total_ship_cells = sum(boats)
-
 	# Store all the players in the registry
 	PlayerRegistry.all_players = [User(0)]
 
 	for bot_number in range(1, size):
 		PlayerRegistry.all_players.append(AI(bot_number))
 
+	return (size, boats, number_of_players)
 
 def process_round(player_clicked, row, cell):
 	"""Function Processes a single round with everyone hitting after the user."""
@@ -64,10 +60,10 @@ def end_program():
 
 
 if __name__ == '__main__':
-	set_up()
+	game_state = set_up()
 
 	# play game
-	root = PlayingField.App()
+	root = PlayingField.App(game_state)
 	root.mainloop()
 
 	# write stats at the end of the game
