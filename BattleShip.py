@@ -1,9 +1,9 @@
-"""MAIn file."""
+"""Main file."""
 
 from Player import User, AI, DeadPlayer
 import PlayingField
 import PlayerRegistry
-import tkinter as tk
+# import tkinter as tk
 
 def set_up():
 	"""Setup gameboard by gathering user input."""
@@ -63,16 +63,11 @@ def end_program():
 	pass
 
 
-if __name__ == '__mAIn__':
+if __name__ == '__main__':
 	set_up()
 
 	# play game
-	root = tk.Tk()
-	root.grid()
-	for p in PlayerRegistry.all_players:
-		player_frame = PlayingField.Grid(p.player_number)
-		root.player_frame.pack()
-
+	root = PlayingField.App()
 	root.mainloop()
 
 	# write stats at the end of the game
